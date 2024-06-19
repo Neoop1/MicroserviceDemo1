@@ -13,7 +13,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    withDockerRegistry('https://registry-1.docker.io/v2/' , 'docker-cred', toolName: 'docker') {
+                    withDockerRegistry([credentialsId: "docker-cred", url: "https://index.docker.io/v1/"]) {
                         sh "docker push neoop1/adservice:latest "
                     }
                 }

@@ -13,8 +13,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                        sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
                         sh 'docker push neoop/shippingservice:latest '
 
                     }

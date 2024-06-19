@@ -5,9 +5,7 @@ pipeline {
         stage('Build & Tag Docker Image') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
                         sh "docker build -t neoop1/adservice:latest ."
-                    }
                 }
             }
         }
@@ -15,7 +13,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
+                    withDockerRegistry('https://registry-1.docker.io/v2/' credentialsId: 'docker-cred', toolName: 'docker') {
                         sh "docker push neoop1/adservice:latest "
                     }
                 }

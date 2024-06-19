@@ -9,17 +9,15 @@ pipeline {
                 }
             }
         }
-        
-            stage('Docker Push') {
-              agent any
-              steps {
+    }  
+    stage('Docker Push') {
+            agent any
+            steps {
                  withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                  sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                 sh 'docker push neoop1/shippingservice:latest'
-                       
-                    }
-                }
-            }
+                 sh 'docker push neoop1/shippingservice:latest'      
         }
+      }
     }
+  }
 }

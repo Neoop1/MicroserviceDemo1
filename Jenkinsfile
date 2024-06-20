@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
                     
-                        sh "docker build -t $DOCKER_HUB//checkoutservice:latest ."
+                        sh "docker build -t $DOCKER_HUB/checkoutservice:latest ."
                     
                 }
             }

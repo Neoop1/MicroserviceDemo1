@@ -170,3 +170,32 @@ subjects:
 ### Generate token using service account in the namespace
 
 [Create Token](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#:~:text=To%20create%20a%20non%2Dexpiring,with%20that%20generated%20token%20data.)
+
+
+
+
+fix Http error in contenerd pull image in kube 
+/etc/containerd/config.toml 
+
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+            systemdCgroup = true
+    [plugins."io.containerd.grpc.v1.cri".registry]
+      [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
+          endpoint = ["https://registry-1.docker.io"]
+             [plugins."io.containerd.grpc.v1.cri".registry.mirrors."192.168.7.121:9001"]
+                endpoint = ["http://192.168.7.121:9001"]
+        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."test.http-registry.io"]
+          endpoint = ["http://192.168.7.121:9001"]
+           insecure_skip_verify = true
+        [plugins."io.containerd.grpc.v1.cri".registry.configs]
+         [plugins."io.containerd.grpc.v1.cri".registry.configs."192.168.7.121:9001"]
+
+
+         [plugins."io.containerd.grpc.v1.cri".registry.configs."192.168.7.121:9001".tls]
+           ca_file = ""
+           cert_file = ""
+           insecure_skip_verify = true
+           key_file = ""
+
+

@@ -15,7 +15,8 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'nexus-cred', toolName: 'docker', url: "$DOCKER_HUB") {
+                    withCredentials([usernamePassword(credentialsId: 'nexus-cred', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                        sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
                         sh 'docker push $DOCKER_HUB/shippingservice:latest '
 
                     }

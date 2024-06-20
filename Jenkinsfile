@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKER_HUB = '192.168.7.121:9001/dockerhub/'
+    }
     stages {
         stage('Build & Tag Docker Image') {
             steps {

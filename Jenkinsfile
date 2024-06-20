@@ -20,7 +20,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'nexus-cred', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh "docker login $DOCKER_HUB -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                        sh 'docker push $DOCKER_HUB/currencyservice:latest "
+                        sh "docker push $DOCKER_HUB/currencyservice:latest"
                     }
                 }
             }

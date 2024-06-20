@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'nexus-cred', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                        sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                        sh "docker login $DOCKER_HUB -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
                         sh 'docker push $DOCKER_HUB/shippingservice:latest '
 
                     }

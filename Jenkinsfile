@@ -1,13 +1,16 @@
 pipeline {
     agent any
+    environment {
+        DOCKER_HUB = '192.168.7.121:9001/dockerhub'
+    }
 
     stages {
         stage('Build & Tag Docker Image') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker build -t neoop1/checkoutservice:latest ."
-                    }
+                    
+                        sh "docker build -t $DOCKER_HUB//checkoutservice:latest ."
+                    
                 }
             }
         }
@@ -15,8 +18,9 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push neoop1/checkoutservice:latest "
+                    withCredentials([usernamePassword(credentialsId: 'nexus-cred', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                        sh "docker login $DOCKER_HUB -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                        sh 'docker push $DOCKER_HUB/checkoutservice:latest "
                     }
                 }
             }
